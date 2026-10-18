@@ -1,4 +1,4 @@
-﻿# Decisions — Worktrace
+# Decisions — Worktrace
 
 > Record of architectural, product, and process decisions.
 > Status values: **Accepted** | **Proposed** | **Deferred**
@@ -162,3 +162,62 @@
 ---
 
 *Add new decisions at the bottom of this file using the same format.*
+
+---
+
+## DEC-014 — Task Identifier Strategy
+
+| Field | Detail |
+|-------|--------|
+| **Status** | Accepted |
+| **Decision** | Task identifiers use UUID v4, generated client-side via the `uuid` package. |
+| **Reasoning** | UUID v4 provides collision-resistant identifiers without requiring a central authority or sequential counter. This preserves the local-first model (DEC-006) and keeps the future sync path open (DEC-012) — UUIDs merge cleanly across devices. |
+| **Consequences** | The `uuid` package is added as a dependency. Task IDs are opaque strings, not auto-increment integers. The domain model generates IDs at creation time, not at persistence time. |
+| **Date** | S1.1 |
+
+---
+
+## DEC-015 — Database Architecture
+
+| Field | Detail |
+|-------|--------|
+| **Status** | Accepted |
+| **Decision** | A single `AppDatabase` class in `lib/core/data/` hosts all Drift tables. Feature-specific tables live in their feature directory (e.g., `lib/features/tasks/data/tasks_table.dart`) and are registered in the shared database. The database accepts a `QueryExecutor` via constructor injection. |
+| **Reasoning** | A single database avoids multiple SQLite connections and simplifies migrations. Constructor injection of the executor keeps the database testable (in-memory for tests, file-based for production) without global state. Feature-local table definitions preserve the feature-first structure (DEC-011). |
+| **Consequences** | `AppDatabase` is in `lib/core/data/`, not inside any single feature. Table files use `@DataClassName` annotations to avoid name collisions with domain models (DEC-012). Production initialization with `path_provider` will be wired in S1.2. |
+| **Date** | S1.1 |
+
+---
+
+## DEC-016 — Domain Model Validation
+
+| Field | Detail |
+|-------|--------|
+| **Status** | Accepted |
+| **Decision** | Domain validation uses factory constructors that throw `ArgumentError` for invalid input. No separate validation result type or Either/Result wrapper. |
+| **Reasoning** | The initial task model has a single validation rule (non-empty title). A factory constructor is the simplest Dart-idiomatic approach. A Result type would add complexity without current benefit and can be introduced later if validation rules grow. |
+| **Consequences** | Callers must catch `ArgumentError` or validate input before calling the factory. The repository layer trusts that domain objects passed to it are already valid. |
+| **Date** | S1.1 |
+---
+
+## DEC-017 — Database Initialization
+
+| Field | Detail |
+|-------|--------|
+| **Status** | Accepted |
+| **Decision** | The production database is opened asynchronously in `main()` before `runApp()`, then injected into the widget tree via `ProviderScope.overrides`. The `databaseProvider` throws `UnimplementedError` if accessed without an override. |
+| **Reasoning** | Async initialization in `main()` avoids race conditions and keeps the database lifecycle tied to the application lifecycle. The throwing default catches wiring bugs immediately rather than producing silent null errors. |
+| **Consequences** | `main()` is now `async`. Tests override `taskRepositoryProvider` directly with fakes, bypassing the database entirely. No global singleton or late-initialized variable. |
+| **Date** | S1.2 |
+
+---
+
+## DEC-018 — Task UI Interaction Patterns
+
+| Field | Detail |
+|-------|--------|
+| **Status** | Accepted |
+| **Decision** | Task creation uses a modal `AlertDialog` with a `TextField`. Task deletion requires a confirmation dialog. Task completion uses an inline `Checkbox`. All mutations persist through the provider before updating the UI. |
+| **Reasoning** | Dialog-based creation is the simplest Material 3 pattern for a single-field form. Confirmation before deletion prevents accidental data loss. Inline checkbox is the standard Material pattern for binary toggle. Persist-before-render ensures the UI never shows state that doesn't match the database. |
+| **Consequences** | No separate task editor screen in this phase. Task editing (title change after creation) deferred to a future sprint. The `TextEditingController` is disposed after a 300ms delay to accommodate the dialog exit animation. |
+| **Date** | S1.3 |

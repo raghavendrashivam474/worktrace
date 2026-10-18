@@ -1,4 +1,4 @@
-﻿# Roadmap — Worktrace
+# Roadmap — Worktrace
 
 > This roadmap records high-level milestones and phase boundaries. Detailed sprint tasks are defined in their respective sprint briefs once approved.
 
@@ -26,12 +26,12 @@
 
 ---
 
-### Phase 1 — Task Workspace *(Next)*
+### Phase 1 — Task Workspace *(In Progress)*
 **Goal:** Deliver the first genuinely useful feature, fully backed by local persistence.
 
 | Sprint | Focus | Deliverable | Status |
 |--------|-------|-------------|--------|
-| **S1.1** | Task domain & storage | Task model, repository contract, Drift database persistence | Pending |
+| **S1.1** | Task domain & storage | Task model, repository contract, Drift database persistence | ✅ Complete |
 | **S1.2** | Create & view tasks | Add tasks and display them in a structured list | Pending |
 | **S1.3** | Edit & complete tasks | Update details, mark complete, reopen where appropriate | Pending |
 | **S1.4** | Task organization | Basic status filters and sensible sorting | Pending |
