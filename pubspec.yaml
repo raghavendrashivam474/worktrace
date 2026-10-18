@@ -1,4 +1,4 @@
-﻿name: worktrace
+name: worktrace
 description: "Local-first developer workspace for students and beginner developers."
 publish_to: 'none'
 version: 0.1.0+1
@@ -11,10 +11,18 @@ dependencies:
     sdk: flutter
   flutter_riverpod: ^2.6.1
 
+  drift: ^2.22.1
+  sqlite3_flutter_libs: ^0.5.28
+  path_provider: ^2.1.5
+  path: ^1.9.0
+  uuid: ^4.5.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^6.0.0
+  drift_dev: ^2.22.1
+  build_runner: ^2.4.14
 
 flutter:
   uses-material-design: true
