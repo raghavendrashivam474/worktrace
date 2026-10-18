@@ -1,11 +1,11 @@
-﻿# Scope — Worktrace
+# Scope — Worktrace
 
 ## In Scope (V1 Baseline)
 
 These capabilities are approved for the initial V1 release:
 
-- **Task management** — create, edit, complete, and delete small
-  development tasks.
+- **Task management** — create, complete, and delete small
+  development tasks. (Editing deferred to a future sprint.)
 - **Code snippet storage** — save, tag, search, and retrieve reusable
   code snippets.
 - **Local-first data** — all data stored on the user's device using

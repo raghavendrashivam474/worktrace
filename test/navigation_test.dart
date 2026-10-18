@@ -2,11 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:worktrace/app/app.dart';
+import 'package:worktrace/features/tasks/data/task_repository_provider.dart';
+import 'package:worktrace/features/tasks/domain/task.dart';
+import 'package:worktrace/features/tasks/domain/task_repository.dart';
+
+/// Minimal fake repository so navigation tests can render TasksScreen
+/// without a real database.
+class _FakeTaskRepo implements TaskRepository {
+  @override
+  Future<List<Task>> getAllTasks() async => [];
+  @override
+  Future<Task?> getTaskById(String id) async => null;
+  @override
+  Future<void> createTask(Task task) async {}
+  @override
+  Future<void> updateTask(Task task) async {}
+  @override
+  Future<void> deleteTask(String id) async {}
+  @override
+  Stream<List<Task>> watchAllTasks() => Stream.value([]);
+}
 
 void main() {
-  /// Pump the full app inside a ProviderScope.
+  /// Pump the full app inside a ProviderScope with a fake task repo.
   Future<void> pumpApp(WidgetTester tester) async {
-    await tester.pumpWidget(const ProviderScope(child: WorktraceApp()));
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [taskRepositoryProvider.overrideWithValue(_FakeTaskRepo())],
+        child: const WorktraceApp(),
+      ),
+    );
     await tester.pumpAndSettle();
   }
 
@@ -31,10 +56,7 @@ void main() {
       expect(find.text('Keep your work traceable'), findsOneWidget);
 
       // Tasks and Snippets placeholder messages are NOT visible
-      expect(
-        find.text('Task management will be available in a future update.'),
-        findsNothing,
-      );
+      expect(find.text('No tasks yet'), findsNothing);
       expect(
         find.text('Snippet storage will be available in a future update.'),
         findsNothing,
@@ -48,10 +70,7 @@ void main() {
 
       await tapDestination(tester, 'Tasks');
 
-      expect(
-        find.text('Task management will be available in a future update.'),
-        findsOneWidget,
-      );
+      expect(find.text('No tasks yet'), findsOneWidget);
       expect(find.text('Keep your work traceable'), findsNothing);
 
       await tapDestination(tester, 'Home');
@@ -77,10 +96,7 @@ void main() {
       await tapDestination(tester, 'Tasks');
       await tapDestination(tester, 'Tasks');
 
-      expect(
-        find.text('Task management will be available in a future update.'),
-        findsOneWidget,
-      );
+      expect(find.text('No tasks yet'), findsOneWidget);
     });
   });
 
@@ -89,10 +105,7 @@ void main() {
       await pumpApp(tester);
 
       await tapDestination(tester, 'Tasks');
-      expect(
-        find.text('Task management will be available in a future update.'),
-        findsOneWidget,
-      );
+      expect(find.text('No tasks yet'), findsOneWidget);
 
       // Simulate Android back button
       await tester.binding.handlePopRoute();
