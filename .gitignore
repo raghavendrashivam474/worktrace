@@ -66,8 +66,9 @@ GoogleService-Info.plist
 *.bak
 
 # ===== Generated =====
-*.g.dart
-*.freezed.dart
+# Drift and freezed generated files are COMMITTED for reproducible builds.
+# Run dart run build_runner build when definitions change.
+# Only test mocks are ignored (regenerated per test run).
 *.mocks.dart
 
 # ===== Worktrace-specific =====
