@@ -54,7 +54,8 @@ flutter run
 Build Debug APK
 
 flutter build apk --debug
-Quality Verification
+
+#Quality Verification
 
 
 dart format .
@@ -85,6 +86,7 @@ lib/
 | **Decisions** | Architectural & product decisions |
 | **Architecture Baseline** | S0.1 Architecture baseline contract |
 | **Design System** | S0.3 Design tokens, typography, and theme guidelines |
+| **Quality Guide** | S0.5 Quality gates, CI workflow, and developer checks |
 
 
 ## License
