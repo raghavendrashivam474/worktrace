@@ -1,19 +1,20 @@
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 
+import '../../features/snippets/data/snippets_table.dart';
 import '../../features/tasks/data/tasks_table.dart';
 
 part 'app_database.g.dart';
 
 /// The application-wide Drift database.
 ///
-/// Lives in lib/core/data/ because it will host tables for
-/// multiple features (tasks now, snippets later).
+/// Lives in lib/core/data/ because it hosts tables for
+/// multiple features (tasks and snippets).
 ///
 /// Pass a [QueryExecutor] to the constructor:
 /// - Production: NativeDatabase(File(dbPath))
 /// - Testing:    NativeDatabase.memory()
-@DriftDatabase(tables: [Tasks])
+@DriftDatabase(tables: [Tasks, Snippets])
 class AppDatabase extends _$AppDatabase {
   AppDatabase(super.e);
 
@@ -21,9 +22,15 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.inMemory() : super(NativeDatabase.memory());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
-  MigrationStrategy get migration =>
-      MigrationStrategy(onCreate: (Migrator m) => m.createAll());
+  MigrationStrategy get migration => MigrationStrategy(
+    onCreate: (Migrator m) => m.createAll(),
+    onUpgrade: (Migrator m, int from, int to) async {
+      if (from < 2) {
+        await m.createTable(snippets);
+      }
+    },
+  );
 }
