@@ -41,15 +41,15 @@
 
 ---
 
-### Phase 2 — Snippet Library *(Future)*
+### Phase 2 — Snippet Library *(Foundation Complete, UI Pending)*
 **Goal:** Make Worktrace useful as a personal store of reusable developer knowledge.
 
 | Sprint | Focus | Deliverable | Status |
 |--------|-------|-------------|--------|
-| **S2.1** | Snippet domain & persistence | Snippet model and database integration | Pending |
-| **S2.2** | Create & edit snippets | Title, code content, language, optional description | Pending |
-| **S2.3** | Browse & retrieve | Snippet list, detail view, language filters | Pending |
-| **S2.4** | Search & copy | Search snippets and copy code to clipboard | Pending |
+| **S2.1** | Architecture audit & capability mapping | Architecture audit, capability boundaries, implementation plan | Complete |
+| **S2.2** | Capability contracts & boundary hardening | SnippetRepository contract, domain field definitions | Complete |
+| **S2.3** | Snippet domain & application foundation | Snippet model, notifier, fake-repo tests (26 tests) | Complete |
+| **S2.4** | Snippet persistence & data integrity | Drift table, v2 migration, repository impl, 15 data tests | Complete |
 | **S2.5** | Reliability & usability | Validation, long-code handling, persistence & interaction tests | Pending |
 
 **Phase 2 Showcase:** Save Dart, Python, and SQL snippets, retrieve one through search, copy its contents, and verify the copied code.

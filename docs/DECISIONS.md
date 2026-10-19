@@ -1,4 +1,4 @@
-﻿# Decisions â€” Worktrace
+# Decisions â€” Worktrace
 
 > Record of architectural, product, and process decisions.
 > Status values: **Accepted** | **Proposed** | **Deferred**
@@ -232,3 +232,13 @@
 - **Context:** Drift/SQLite date-time storage operates with second-level precision.
 - **Decision:** Retain Drift default second-level DateTime mapping for createdAt and updatedAt.
 - **Consequences:** Sufficient for task ordering and auditing without database schema migrations. Test fixtures use microsecond-truncated fixed dates to ensure deterministic assertions.
+
+## DEC-021 — Snippet Domain Model and Validation
+
+| Field | Detail |
+|-------|--------|
+| **Status** | Accepted |
+| **Decision** | Snippet identifiers use UUID v4 (DEC-014). Domain validation uses factory constructors throwing `ArgumentError` (DEC-016). Fields: id, title, code, language, createdAt, updatedAt. Language is normalized to lowercase. Title, code, and language must be non-empty after trimming. Timestamps use second precision (DEC-020). |
+| **Reasoning** | Mirrors the established Task domain patterns exactly. UUID v4 preserves sync-readiness (DEC-012). Lowercase language simplifies future filtering and grouping. Three required text fields (title, code, language) represent the minimum useful snippet without over-engineering. |
+| **Consequences** | `Snippet.create()` and `Snippet.update()` throw `ArgumentError` for invalid input. The repository layer trusts that domain objects are pre-validated. No separate validation result type. |
+| **Date** | S2.3 |
