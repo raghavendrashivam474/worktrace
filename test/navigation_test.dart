@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:worktrace/app/app.dart';
+import 'package:worktrace/features/snippets/data/snippet_repository_provider.dart';
+import 'package:worktrace/features/snippets/domain/snippet.dart';
+import 'package:worktrace/features/snippets/domain/snippet_repository.dart';
 import 'package:worktrace/features/tasks/data/task_repository_provider.dart';
 import 'package:worktrace/features/tasks/domain/task.dart';
 import 'package:worktrace/features/tasks/domain/task_repository.dart';
@@ -23,12 +26,32 @@ class _FakeTaskRepo implements TaskRepository {
   Stream<List<Task>> watchAllTasks() => Stream.value([]);
 }
 
+/// Minimal fake repository so navigation tests can render SnippetsScreen
+/// without a real database.
+class _FakeSnippetRepo implements SnippetRepository {
+  @override
+  Future<List<Snippet>> getAllSnippets() async => [];
+  @override
+  Future<Snippet?> getSnippetById(String id) async => null;
+  @override
+  Future<void> createSnippet(Snippet snippet) async {}
+  @override
+  Future<void> updateSnippet(Snippet snippet) async {}
+  @override
+  Future<void> deleteSnippet(String id) async {}
+  @override
+  Stream<List<Snippet>> watchAllSnippets() => Stream.value([]);
+}
+
 void main() {
-  /// Pump the full app inside a ProviderScope with a fake task repo.
+  /// Pump the full app inside a ProviderScope with fake repos.
   Future<void> pumpApp(WidgetTester tester) async {
     await tester.pumpWidget(
       ProviderScope(
-        overrides: [taskRepositoryProvider.overrideWithValue(_FakeTaskRepo())],
+        overrides: [
+          taskRepositoryProvider.overrideWithValue(_FakeTaskRepo()),
+          snippetRepositoryProvider.overrideWithValue(_FakeSnippetRepo()),
+        ],
         child: const WorktraceApp(),
       ),
     );
@@ -55,12 +78,9 @@ void main() {
       // Home content is visible
       expect(find.text('Keep your work traceable'), findsOneWidget);
 
-      // Tasks and Snippets placeholder messages are NOT visible
+      // Tasks and Snippets empty states are NOT visible
       expect(find.text('No tasks yet'), findsNothing);
-      expect(
-        find.text('Snippet storage will be available in a future update.'),
-        findsNothing,
-      );
+      expect(find.text('No snippets yet'), findsNothing);
     });
   });
 
@@ -83,10 +103,7 @@ void main() {
 
       await tapDestination(tester, 'Snippets');
 
-      expect(
-        find.text('Snippet storage will be available in a future update.'),
-        findsOneWidget,
-      );
+      expect(find.text('No snippets yet'), findsOneWidget);
       expect(find.text('Keep your work traceable'), findsNothing);
     });
 
