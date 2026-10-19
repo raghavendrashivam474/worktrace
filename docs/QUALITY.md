@@ -1,6 +1,6 @@
-﻿# Quality Guide — Worktrace
+# Quality Guide - Worktrace
 
-**Phase:** S0.5 — Quality Baseline & CI Setup
+**Phase:** S0.5 - Quality Baseline & CI Setup
 **Status:** Active
 
 ---
@@ -49,7 +49,7 @@ dart format --output=none --set-exit-if-changed .
 ```
 
 Exits with code 1 if any Dart file requires formatting.
-Does not modify files — this is a check, not a fix.
+Does not modify files - this is a check, not a fix.
 To auto-format locally: dart format .
 
 ### 4.2 Static Analysis
@@ -69,7 +69,7 @@ flutter test
 ```
 
 Runs all tests in test/.
-Tests are deterministic — no network, device, or credentials required.
+Tests are deterministic - no network, device, or credentials required.
 Uses Flutter's widget test environment.
 
 
@@ -106,9 +106,9 @@ Pull requests targeting main
 
 | Step | Command | Fails on |
 |------|---------|---------|
-| Checkout | actions/checkout@v4 | — |
-| Java setup | actions/setup-java@v4 (Temurin 17) | — |
-| Flutter setup | subosito/flutter-action@v2 (3.44.2 stable) | — |
+| Checkout | actions/checkout@v4 | - |
+| Java setup | actions/setup-java@v4 (Temurin 17) | - |
+| Flutter setup | subosito/flutter-action@v2 (3.44.2 stable) | - |
 | Dependencies | flutter pub get | Resolution errors |
 | Formatting | dart format --output=none --set-exit-if-changed . | Unformatted files |
 | Analysis | flutter analyze | Errors or warnings |
@@ -136,8 +136,8 @@ If any step fails, the workflow stops and reports the failure.
 | Back navigation | Yes | PopScope behavior |
 | Responsive layout | Yes | NavigationBar vs NavigationRail |
 | Theme (light/dark) | Partial | Inherited via MaterialApp; no explicit theme-switch test yet |
-| Task CRUD | No | Phase 1 — not yet implemented |
-| Snippet CRUD | No | Phase 2 — not yet implemented |
+| Task CRUD | No | Phase 1 - not yet implemented |
+| Snippet CRUD | No | Phase 2 - not yet implemented |
 | Database | No | No persistence layer yet |
 
 

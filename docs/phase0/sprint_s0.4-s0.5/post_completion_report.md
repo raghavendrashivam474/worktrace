@@ -1,7 +1,7 @@
-# Post-Completion Report — Sprints S0.4 & S0.5
+# Post-Completion Report - Sprints S0.4 & S0.5
 
 **Project:** Worktrace
-**Phase:** 0 — Application Foundation
+**Phase:** 0 - Application Foundation
 **Sprints:** S0.4 (Navigation & Application Shell) + S0.5 (Quality Baseline & CI Setup)
 **Author:** Junior Developer
 **Reviewer:** Lead Developer / Architect
@@ -13,11 +13,11 @@
 
 ## 1. Executive Summary
 
-Sprints S0.4 and S0.5 extend the completed S0.1–S0.3 foundation with a working, responsive navigation shell and a repeatable quality baseline backed by continuous integration.
+Sprints S0.4 and S0.5 extend the completed S0.1-S0.3 foundation with a working, responsive navigation shell and a repeatable quality baseline backed by continuous integration.
 
-The application now launches into a tabbed shell with three destinations — Home, Tasks, and Snippets — adapts its navigation presentation to screen width, handles Android back-button behavior predictably, and preserves tab state across navigation. Nine automated tests cover startup, navigation, back behavior, and responsive layout. A GitHub Actions workflow enforces formatting, static analysis, tests, and an Android debug build on every push and pull request to `main`.
+The application now launches into a tabbed shell with three destinations - Home, Tasks, and Snippets - adapts its navigation presentation to screen width, handles Android back-button behavior predictably, and preserves tab state across navigation. Nine automated tests cover startup, navigation, back behavior, and responsive layout. A GitHub Actions workflow enforces formatting, static analysis, tests, and an Android debug build on every push and pull request to `main`.
 
-No new runtime dependencies were introduced. The existing design system, theme configuration, and reusable widgets were reused without modification. The S0.1–S0.3 milestone history and tags remain untouched.
+No new runtime dependencies were introduced. The existing design system, theme configuration, and reusable widgets were reused without modification. The S0.1-S0.3 milestone history and tags remain untouched.
 
 All work was performed on a single feature branch (`feature/s0.4-navigation-shell`) and is held uncommitted pending reviewer approval of the final merge strategy.
 
@@ -25,28 +25,28 @@ All work was performed on a single feature branch (`feature/s0.4-navigation-shel
 
 ## 2. Scope Delivered
 
-### 2.1 Sprint S0.4 — Navigation & Application Shell
+### 2.1 Sprint S0.4 - Navigation & Application Shell
 
 | Requirement | Status | Notes |
 |---|---|---|
-| S0.4-F01 — Application entry preserved | ✅ | `main.dart` and `app.dart` unchanged |
-| S0.4-F02 — Route structure | ✅ | Tab-based destinations, no router dependency added |
-| S0.4-F03 — Functional module navigation | ✅ | Home / Tasks / Snippets reachable, selected state visible |
-| S0.4-F04 — Responsive shell | ✅ | NavigationBar (< 600dp) / NavigationRail (≥ 600dp) |
-| S0.4-F05 — Theme & visual consistency | ✅ | Existing tokens, theme, and primitives reused |
-| S0.4-F06 — State ownership | ✅ | Local `StatefulWidget` state; no Riverpod provider added |
-| S0.4-F07 — Testability | ✅ | 7 navigation tests + 1 shell smoke test + 1 updated |
+| S0.4-F01 - Application entry preserved | [OK] | `main.dart` and `app.dart` unchanged |
+| S0.4-F02 - Route structure | [OK] | Tab-based destinations, no router dependency added |
+| S0.4-F03 - Functional module navigation | [OK] | Home / Tasks / Snippets reachable, selected state visible |
+| S0.4-F04 - Responsive shell | [OK] | NavigationBar (< 600dp) / NavigationRail (≥ 600dp) |
+| S0.4-F05 - Theme & visual consistency | [OK] | Existing tokens, theme, and primitives reused |
+| S0.4-F06 - State ownership | [OK] | Local `StatefulWidget` state; no Riverpod provider added |
+| S0.4-F07 - Testability | [OK] | 7 navigation tests + 1 shell smoke test + 1 updated |
 
-### 2.2 Sprint S0.5 — Quality Baseline & CI Setup
+### 2.2 Sprint S0.5 - Quality Baseline & CI Setup
 
 | Requirement | Status | Notes |
 |---|---|---|
-| S0.5-Q01 — Local quality commands | ✅ | Documented in `docs/QUALITY.md` |
-| S0.5-Q02 — Automated test baseline | ✅ | 9 tests covering implemented behavior |
-| S0.5-Q03 — Test determinism | ✅ | No network, device, or external state required |
-| S0.5-Q04 — Continuous integration | ✅ | `.github/workflows/flutter-ci.yml` |
-| S0.5-Q05 — Quality documentation | ✅ | `docs/QUALITY.md`, README updated |
-| S0.5-Q06 — Failure handling | ✅ | No lint suppression, no skipped tests, no weakened assertions |
+| S0.5-Q01 - Local quality commands | [OK] | Documented in `docs/QUALITY.md` |
+| S0.5-Q02 - Automated test baseline | [OK] | 9 tests covering implemented behavior |
+| S0.5-Q03 - Test determinism | [OK] | No network, device, or external state required |
+| S0.5-Q04 - Continuous integration | [OK] | `.github/workflows/flutter-ci.yml` |
+| S0.5-Q05 - Quality documentation | [OK] | `docs/QUALITY.md`, README updated |
+| S0.5-Q06 - Failure handling | [OK] | No lint suppression, no skipped tests, no weakened assertions |
 
 ### 2.3 Explicitly Deferred
 
@@ -82,7 +82,7 @@ The full contents of 14 critical files were reviewed, including:
 
 ### 3.2 Baseline Assessment Findings
 
-The inspection revealed that the existing `AppShell` was a single-page branded landing widget with no navigation. The `lib/features/` directory existed but was empty. Only `flutter_riverpod` was present — no routing package of any kind. The design system (`AppColors`, `AppTypography`, `AppSpacing`, `AppShapes`, `WtCard`, `WtEmptyState`, `WtPrimaryButton`) was complete and could be reused as-is.
+The inspection revealed that the existing `AppShell` was a single-page branded landing widget with no navigation. The `lib/features/` directory existed but was empty. Only `flutter_riverpod` was present - no routing package of any kind. The design system (`AppColors`, `AppTypography`, `AppSpacing`, `AppShapes`, `WtCard`, `WtEmptyState`, `WtPrimaryButton`) was complete and could be reused as-is.
 
 ### 3.3 Navigation Strategy Decision
 
@@ -90,16 +90,16 @@ Three navigation options were considered:
 
 | Option | Pros | Cons | Verdict |
 |---|---|---|---|
-| **`go_router` package** | Industry standard, declarative | Material architectural change (§6.2), requires ADR approval, overkill for 3 top-level tabs | Rejected |
+| **`go_router` package** | Industry standard, declarative | Material architectural change (Section 6.2), requires ADR approval, overkill for 3 top-level tabs | Rejected |
 | **`Navigator 2.0` with custom RouterDelegate** | Full control | High complexity, speculative for current scope | Rejected |
 | **`StatefulWidget` + `IndexedStack` + Material 3 navigation widgets** | Zero new dependencies, native Material 3 components, scales to the current need | Not suitable for deep linking (not required in Phase 0) | **Selected** |
 
 The selected approach aligns with:
 
-- **DEC-005** — Riverpod only where meaningful (navigation state stays local).
-- **DEC-011** — Feature-first structure (`features/home`, `features/tasks`, `features/snippets`).
-- **Brief §4.2-F06** — Avoid adding providers for local UI state.
-- **Brief §6.2** — Avoid material architectural changes without approval.
+- **DEC-005** - Riverpod only where meaningful (navigation state stays local).
+- **DEC-011** - Feature-first structure (`features/home`, `features/tasks`, `features/snippets`).
+- **Brief Section 4.2-F06** - Avoid adding providers for local UI state.
+- **Brief Section 6.2** - Avoid material architectural changes without approval.
 
 No new ADR was required because no architectural decision was changed.
 
@@ -108,7 +108,7 @@ No new ADR was required because no architectural decision was changed.
 | File | Purpose |
 |---|---|
 | `lib/app/navigation/app_destinations.dart` | `AppDestination` enum + `WorktraceDestination` metadata list |
-| `lib/features/home/home_screen.dart` | Home tab — brand hero and orientation hint |
+| `lib/features/home/home_screen.dart` | Home tab - brand hero and orientation hint |
 | `lib/features/tasks/tasks_screen.dart` | Tasks placeholder using `WtEmptyState` |
 | `lib/features/snippets/snippets_screen.dart` | Snippets placeholder using `WtEmptyState` |
 | `test/navigation_test.dart` | 7 focused navigation and responsive tests |
@@ -142,8 +142,8 @@ The new `AppShell`:
 - Uses `LayoutBuilder` to switch between layouts at 600 dp.
 - Renders all three screens inside an `IndexedStack` to preserve each tab's state.
 - Wraps the `Scaffold` in `PopScope`:
-  - `canPop: _selectedIndex == 0` — Home allows system back to exit the app.
-  - `onPopInvokedWithResult` — non-Home taps route back to Home.
+  - `canPop: _selectedIndex == 0` - Home allows system back to exit the app.
+  - `onPopInvokedWithResult` - non-Home taps route back to Home.
 - Uses the existing `AppBar` branding (logo + title) from the old shell.
 - Draws navigation icons from the destinations metadata, keeping the destination list as the single source of truth.
 
@@ -159,7 +159,7 @@ Nine tests organized across five groups:
 | Back navigation | 2 | `handlePopRoute` returns from Tasks and Snippets to Home |
 | Responsive shell | 2 | `NavigationBar` at 390dp, `NavigationRail` at 900dp |
 
-A `tapDestination` helper scopes taps to the navigation widget to avoid finder ambiguity (see §4.1).
+A `tapDestination` helper scopes taps to the navigation widget to avoid finder ambiguity (see Section 4.1).
 
 ### 3.9 CI Workflow Design
 
@@ -168,12 +168,12 @@ A `tapDestination` helper scopes taps to the navigation widget to avoid finder a
 | Runner | `ubuntu-latest` | Includes Android SDK tools |
 | Java | Temurin 17 | Required by Android Gradle Plugin |
 | Flutter | Pinned `3.44.2`, `stable` | Matches local environment |
-| Trigger | Push + PR to `main` | Minimum per §5.4 |
-| Caching | None | Per §5.5 — avoid unnecessary complexity |
-| Secrets | None | Per §5.5 |
-| Artifacts | None uploaded | Per §5.5 |
+| Trigger | Push + PR to `main` | Minimum per Section 5.4 |
+| Caching | None | Per Section 5.5 - avoid unnecessary complexity |
+| Secrets | None | Per Section 5.5 |
+| Artifacts | None uploaded | Per Section 5.5 |
 
-Pipeline: Checkout → Java → Flutter → `pub get` → format check → analyze → test → debug build. Any failure stops the workflow.
+Pipeline: Checkout -> Java -> Flutter -> `pub get` -> format check -> analyze -> test -> debug build. Any failure stops the workflow.
 
 ---
 
@@ -194,9 +194,9 @@ Introduced a `tapDestination(tester, label)` helper that scopes `find.text(...)`
 
 ### 4.2 Problem: Smoke Test Failed on Default Test Surface
 
-**Symptom:** After fixing §4.1, `widget_test.dart` failed with:
+**Symptom:** After fixing Section 4.1, `widget_test.dart` failed with:
 
-> *"Expected: exactly one matching candidate — Actual: Found 0 widgets with type 'NavigationBar'"*
+> *"Expected: exactly one matching candidate - Actual: Found 0 widgets with type 'NavigationBar'"*
 
 **Root cause:** Flutter's default widget-test surface is 800×600 pixels. At that width, the responsive shell renders a `NavigationRail`, not a `NavigationBar`. The smoke test's assertion was too specific about the navigation presentation.
 
@@ -215,7 +215,7 @@ The specific widget type (`NavigationBar` vs `NavigationRail`) is now owned excl
 
 **Symptom:** During documentation inspection, the README's "Build Debug APK" and "Quality Verification" sections were missing their code fences and headings had merged into the previous code block, producing broken rendering.
 
-**Root cause:** Pre-existing from the handoff — not caused by current work.
+**Root cause:** Pre-existing from the handoff - not caused by current work.
 
 **Mitigation:**
 Applied a targeted patch (Patch 8-2) that restored the correct heading hierarchy and code fences without touching unrelated README sections. Patches 8-1, 8-3, and 8-4 were kept small and scoped to individual sections, following the brief's "never replace a complete existing file merely to make a small change" rule.
@@ -235,9 +235,9 @@ Used doubled backticks (`` `` ``) within the here-strings to produce single lite
 
 ### 4.5 Problem: Mojibake in Original Shell Comments
 
-**Symptom:** Inspection revealed the original `app_shell.dart` contained character-encoding artifacts (e.g., `â”€â”€` instead of `──`) in comment separators.
+**Symptom:** Inspection revealed the original `app_shell.dart` contained character-encoding artifacts (e.g., `â"€â"€` instead of `--`) in comment separators.
 
-**Root cause:** Pre-existing from the handoff — likely a UTF-8 / Windows-1252 encoding mismatch when the file was originally written.
+**Root cause:** Pre-existing from the handoff - likely a UTF-8 / Windows-1252 encoding mismatch when the file was originally written.
 
 **Mitigation:**
 The entire `app_shell.dart` was being rewritten anyway. The new file was written with explicit `-Encoding UTF8` in all `Set-Content` calls, and no decorative Unicode box-drawing characters were used in the new comments. All new files use plain ASCII in comments.
@@ -250,9 +250,9 @@ The entire `app_shell.dart` was being rewritten anyway. The new file was written
 
 > *"9 packages have newer versions incompatible with dependency constraints."*
 
-**Analysis:** These are transitive package hints (e.g., `clock`, `matcher`, `meta`, `flutter_riverpod 2.6.1 → 3.4.3`). The constraints come from the Flutter SDK and the pinned `flutter_riverpod ^2.6.1` from the baseline. Upgrading would be a material change requiring review.
+**Analysis:** These are transitive package hints (e.g., `clock`, `matcher`, `meta`, `flutter_riverpod 2.6.1 -> 3.4.3`). The constraints come from the Flutter SDK and the pinned `flutter_riverpod ^2.6.1` from the baseline. Upgrading would be a material change requiring review.
 
-**Decision:** Left unchanged. The brief explicitly instructs "Do not automatically update dependencies in CI" (§5.5) and "Modify them only when the sprint requires it" (§2). Noted here for the reviewer's awareness.
+**Decision:** Left unchanged. The brief explicitly instructs "Do not automatically update dependencies in CI" (Section 5.5) and "Modify them only when the sprint requires it" (Section 2). Noted here for the reviewer's awareness.
 
 ---
 
@@ -263,10 +263,10 @@ The entire `app_shell.dart` was being rewritten anyway. The new file was written
 All commands executed from the repository root with the following results:
 
 ```
-dart format --output=none --set-exit-if-changed .   → exit 0 (no changes required)
-flutter analyze                                     → No issues found! (ran in 3.8s)
-flutter test                                        → 9 tests passed
-flutter build apk --debug                           → Built build/app/outputs/flutter-apk/app-debug.apk
+dart format --output=none --set-exit-if-changed .   -> exit 0 (no changes required)
+flutter analyze                                     -> No issues found! (ran in 3.8s)
+flutter test                                        -> 9 tests passed
+flutter build apk --debug                           -> Built build/app/outputs/flutter-apk/app-debug.apk
 ```
 
 ### 5.2 Test Results
@@ -277,8 +277,8 @@ flutter build apk --debug                           → Built build/app/outputs/
 
 | Test file | Test count | Status |
 |---|---|---|
-| `test/widget_test.dart` | 1 | ✅ Pass |
-| `test/navigation_test.dart` | 8 | ✅ Pass |
+| `test/widget_test.dart` | 1 | [OK] Pass |
+| `test/navigation_test.dart` | 8 | [OK] Pass |
 
 ### 5.3 CI Workflow
 
@@ -289,7 +289,7 @@ The workflow file is committed-ready at `.github/workflows/flutter-ci.yml`. It h
 **Pending.** Device verification is scheduled before the final commit. Expected procedure:
 
 1. `flutter run` on connected Android device.
-2. Tap through Home → Tasks → Snippets → Home.
+2. Tap through Home -> Tasks -> Snippets -> Home.
 3. Verify back button from Tasks and Snippets returns to Home.
 4. Verify back button from Home exits the app.
 5. Toggle system dark mode and verify theme adapts.
@@ -324,19 +324,19 @@ Untracked:
 
 ### 6.3 Protected History
 
-- `v-Pre-S0` → `9c7f0a2` — unchanged.
-- `v-S0.1-S0.3` → `8b65a1a` — unchanged.
-- `main` → `8b65a1a` — unchanged.
+- `v-Pre-S0` -> `9c7f0a2` - unchanged.
+- `v-S0.1-S0.3` -> `8b65a1a` - unchanged.
+- `main` -> `8b65a1a` - unchanged.
 - No existing commits were modified, deleted, or force-pushed.
 
 ### 6.4 Pending Commits (Proposed Grouping)
 
 Per the lead developer's instruction, all work is held uncommitted. The proposed commit sequence at merge time:
 
-1. `feat(s0.4): implement responsive navigation shell` — 5 files (destinations, 3 screens, shell rewrite)
-2. `test(s0.4): add navigation and responsive shell tests` — 2 test files
-3. `ci(s0.5): add Flutter verification workflow` — 1 workflow file
-4. `docs(s0.5): add quality guide and update README` — 2 doc files
+1. `feat(s0.4): implement responsive navigation shell` - 5 files (destinations, 3 screens, shell rewrite)
+2. `test(s0.4): add navigation and responsive shell tests` - 2 test files
+3. `ci(s0.5): add Flutter verification workflow` - 1 workflow file
+4. `docs(s0.5): add quality guide and update README` - 2 doc files
 
 Final merge strategy (fast-forward vs `--no-ff` vs squash) and milestone tagging (`v-S0.4-S0.5` or similar) are deferred to the lead developer.
 
@@ -348,11 +348,11 @@ No new ADRs were created for these sprints.
 
 **Reasoning:** The navigation implementation does not change any accepted architectural decision. It uses:
 
-- Flutter / Dart (DEC-003) — unchanged.
-- Riverpod (DEC-005) — not used for navigation state, consistent with the "where meaningful" guidance.
-- Material 3 (DEC-008) — `NavigationBar` and `NavigationRail` are Material 3 components.
-- Feature-first structure (DEC-011) — `features/home`, `features/tasks`, `features/snippets` created exactly as the baseline anticipated.
-- Quality baseline (DEC-013) — formalized into a CI workflow without changing the required gates.
+- Flutter / Dart (DEC-003) - unchanged.
+- Riverpod (DEC-005) - not used for navigation state, consistent with the "where meaningful" guidance.
+- Material 3 (DEC-008) - `NavigationBar` and `NavigationRail` are Material 3 components.
+- Feature-first structure (DEC-011) - `features/home`, `features/tasks`, `features/snippets` created exactly as the baseline anticipated.
+- Quality baseline (DEC-013) - formalized into a CI workflow without changing the required gates.
 
 If the reviewer determines that any of these choices warrants a formal ADR entry, one can be added before merge.
 
@@ -364,9 +364,9 @@ If the reviewer determines that any of these choices warrants a formal ADR entry
 |---|---|---|
 | No device verification yet | Final acceptance criterion unmet | To be completed before merge |
 | CI not yet executed | Workflow unverified in GitHub's environment | Will run on first push; Flutter version may need adjustment if `3.44.2` is unavailable in `subosito/flutter-action` |
-| Theme toggle not tested | `ThemeMode.system` configured but no manual toggle exists in V1 | Deferred — not in V1 scope |
-| No coverage reporting | Cannot quantify test coverage percentage | Deferred per §5.8 exclusion |
-| Pre-existing dependency hints | Minor package versions behind | Deferred — do not auto-update per §5.5 |
+| Theme toggle not tested | `ThemeMode.system` configured but no manual toggle exists in V1 | Deferred - not in V1 scope |
+| No coverage reporting | Cannot quantify test coverage percentage | Deferred per Section 5.8 exclusion |
+| Pre-existing dependency hints | Minor package versions behind | Deferred - do not auto-update per Section 5.5 |
 | Pre-existing mojibake in untouched files | Cosmetic only, non-functional | Preserved per the "do not modify unless the sprint requires it" rule |
 
 ---
@@ -375,36 +375,36 @@ If the reviewer determines that any of these choices warrants a formal ADR entry
 
 ### S0.4 Checklist
 
-- ✅ Application launches into intended initial destination (Home)
-- ✅ Tasks and Snippets reachable through application shell
-- ✅ Navigation selection matches current destination
-- ⏳ Android back behavior predictable — tested in widget tests, device verification pending
-- ✅ Compact and wider layouts behave correctly
-- ✅ Light and dark themes remain visually coherent (inherited from existing theme)
-- ✅ No navigation-related overflow or layout regression
-- ✅ Automated tests cover core navigation flows
-- ✅ `dart format` produces no changes
-- ✅ `flutter analyze` reports no issues
-- ✅ `flutter test` passes (9/9)
-- ✅ `flutter build apk --debug` succeeds
+- [OK] Application launches into intended initial destination (Home)
+- [OK] Tasks and Snippets reachable through application shell
+- [OK] Navigation selection matches current destination
+- ⏳ Android back behavior predictable - tested in widget tests, device verification pending
+- [OK] Compact and wider layouts behave correctly
+- [OK] Light and dark themes remain visually coherent (inherited from existing theme)
+- [OK] No navigation-related overflow or layout regression
+- [OK] Automated tests cover core navigation flows
+- [OK] `dart format` produces no changes
+- [OK] `flutter analyze` reports no issues
+- [OK] `flutter test` passes (9/9)
+- [OK] `flutter build apk --debug` succeeds
 - ⏳ Device/emulator verification documented
-- ✅ Architecture and roadmap documentation reflects implementation
-- ✅ Reviewer can be walked through the navigation design
+- [OK] Architecture and roadmap documentation reflects implementation
+- [OK] Reviewer can be walked through the navigation design
 
 ### S0.5 Checklist
 
-- ✅ Formatting verification passes
-- ✅ Static analysis passes
-- ✅ Automated tests pass
-- ✅ Android debug build succeeds
-- ✅ CI runs the agreed quality gates (defined; execution pending push)
-- ✅ CI fails when a required gate fails (by `set-exit-if-changed` and default fail-fast)
-- ✅ Tests deterministic, no device required
-- ✅ Dependencies resolve reproducibly from `pubspec.lock`
-- ✅ Developer setup and quality commands documented
-- ✅ Existing tests and analyzer protections not weakened
-- ✅ CI configuration reviewed, no secrets exposed
-- ✅ Documentation accurately describes what is tested and what remains unimplemented
+- [OK] Formatting verification passes
+- [OK] Static analysis passes
+- [OK] Automated tests pass
+- [OK] Android debug build succeeds
+- [OK] CI runs the agreed quality gates (defined; execution pending push)
+- [OK] CI fails when a required gate fails (by `set-exit-if-changed` and default fail-fast)
+- [OK] Tests deterministic, no device required
+- [OK] Dependencies resolve reproducibly from `pubspec.lock`
+- [OK] Developer setup and quality commands documented
+- [OK] Existing tests and analyzer protections not weakened
+- [OK] CI configuration reviewed, no secrets exposed
+- [OK] Documentation accurately describes what is tested and what remains unimplemented
 - ⏳ Final Phase 0 status recorded only after reviewer verification
 
 ---
@@ -415,11 +415,11 @@ If the reviewer determines that any of these choices warrants a formal ADR entry
 
 2. **Milestone tagging:** The brief states that milestone tags are the lead developer's call. Suggested tag: `v-S0.4-S0.5` or `v-Phase0-Complete`.
 
-3. **CI Flutter version:** If `subosito/flutter-action` does not have `3.44.2` available in its archive at first run, the workflow will fail at the Flutter setup step. The recommended fallback is to remove the pinned `flutter-version` line and use `channel: 'stable'` only. This is noted in `docs/QUALITY.md` §7.
+3. **CI Flutter version:** If `subosito/flutter-action` does not have `3.44.2` available in its archive at first run, the workflow will fail at the Flutter setup step. The recommended fallback is to remove the pinned `flutter-version` line and use `channel: 'stable'` only. This is noted in `docs/QUALITY.md` Section 7.
 
 4. **Dependency currency:** The 9 outdated transitive packages are a known baseline condition. If the reviewer wants to address this now, it should be scoped as a separate maintenance task with its own branch and testing.
 
-5. **ROADMAP update:** The roadmap already shows S0.4 and S0.5 as "✅ Complete" (this was pre-existing in the baseline). The reviewer may wish to confirm whether that status should remain or whether it should be adjusted to reflect that completion is now evidence-backed rather than planned.
+5. **ROADMAP update:** The roadmap already shows S0.4 and S0.5 as "[OK] Complete" (this was pre-existing in the baseline). The reviewer may wish to confirm whether that status should remain or whether it should be adjusted to reflect that completion is now evidence-backed rather than planned.
 
 ---
 
@@ -427,7 +427,7 @@ If the reviewer determines that any of these choices warrants a formal ADR entry
 
 Both sprints are implementation-complete and verification-complete at the local-quality-gate level. All code is held uncommitted on `feature/s0.4-navigation-shell` pending the reviewer's instructions on commit grouping, merge strategy, device verification responsibility, and milestone tagging.
 
-The S0.1–S0.3 baseline is intact. No existing architectural decision was changed. No new dependencies were added. The design system was reused as intended.
+The S0.1-S0.3 baseline is intact. No existing architectural decision was changed. No new dependencies were added. The design system was reused as intended.
 
 Ready for review.
 

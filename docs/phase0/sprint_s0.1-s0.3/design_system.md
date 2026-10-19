@@ -1,6 +1,6 @@
-﻿# Design System — Worktrace
+# Design System - Worktrace
 
-**Phase:** S0.3 — Visual Identity & Design System
+**Phase:** S0.3 - Visual Identity & Design System
 **Status:** Active
 
 ---
@@ -8,8 +8,8 @@
 ## 1. Brand Direction
 
 Worktrace communicates **modularity, continuity, and traceability**.
-The visual identity should feel like a practical developer tool — clean,
-focused, and uncluttered — not a generic productivity dashboard.
+The visual identity should feel like a practical developer tool - clean,
+focused, and uncluttered - not a generic productivity dashboard.
 
 **Brand asset:** `assets/images/WorkTrace.png`
 **Status:** Owner-provided logo. Integrated with error fallback.
@@ -95,7 +95,7 @@ Defined in `AppShapes`.
 
 ## 6. Theme Behavior
 
-- **Mode:** `ThemeMode.system` — follows device preference.
+- **Mode:** `ThemeMode.system` - follows device preference.
 - **No manual toggle** in V1.
 - Both themes use the same `ColorScheme.fromSeed()` with `AppColors.primary`.
 - Cards use zero elevation with border outlines (not shadows).
@@ -134,7 +134,7 @@ Text('Hello', style: TextStyle(fontSize: 16, color: Color(0xFF1F1F1F)));
 ## 9. Known Limitations
 
 - Logo is owner-provided; no alternate sizes or icon-only variant yet.
-- No custom font — uses platform default (Roboto on Android).
+- No custom font - uses platform default (Roboto on Android).
 - No animation or motion tokens defined yet.
 - Accessibility audit limited to contrast and touch targets;
 - full audit deferred to feature sprints.

@@ -1,6 +1,6 @@
-﻿# Architecture Baseline — Worktrace
+# Architecture Baseline - Worktrace
 
-**Phase:** S0.1 — Architecture Decisions & Technical Baseline
+**Phase:** S0.1 - Architecture Decisions & Technical Baseline
 **Date:** S0.1
 **Status:** Accepted (see DECISIONS.md)
 
@@ -26,13 +26,13 @@ work and reusable code snippets traceable across sessions.
 
 ```text
 lib/
-├── main.dart # Entry point: ProviderScope + runApp
-├── app/
-│ ├── app.dart # MaterialApp, theme, routing
-│ ├── theme/ # ColorScheme, TextTheme, spacing tokens
-│ └── navigation/ # Shell, routes (when needed)
-├── features/ # Feature modules (tasks/, snippets/)
-└── shared/ # Genuinely shared widgets/utilities only
+|-- main.dart # Entry point: ProviderScope + runApp
+|-- app/
+| |-- app.dart # MaterialApp, theme, routing
+| |-- theme/ # ColorScheme, TextTheme, spacing tokens
+| |-- navigation/ # Shell, routes (when needed)
+|-- features/ # Feature modules (tasks/, snippets/)
+|-- shared/ # Genuinely shared widgets/utilities only
 ```
 
 
@@ -60,7 +60,7 @@ text
 
 - `ProviderScope` wraps the application at `main.dart`.
 - UI widgets use `ConsumerWidget` or `ConsumerStatefulWidget`.
-- Code generation (`riverpod_generator`) is optional — introduced only
+- Code generation (`riverpod_generator`) is optional - introduced only
   when a real need justifies it.
 - No mixing with Provider, Bloc, GetX, or other state systems.
 
@@ -95,7 +95,7 @@ text
 
 - Material 3 with `ColorScheme.fromSeed()` using a Worktrace brand color.
 - Light and dark themes from the same seed.
-- `ThemeMode.system` — follows device preference.
+- `ThemeMode.system` - follows device preference.
 - Semantic color tokens in `lib/app/theme/`.
 - Exact palette provisional until S0.3 visual review.
 
@@ -120,4 +120,4 @@ authentication, backend, CI/CD, release automation.
 ---
 
 *This document is the implementation contract for S0.2 and S0.3.
-Changes require the architectural improvement protocol (see brief §7).*
+Changes require the architectural improvement protocol (see brief Section 7).*

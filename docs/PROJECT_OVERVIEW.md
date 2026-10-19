@@ -1,10 +1,10 @@
-﻿# Project Overview — Worktrace
+# Project Overview - Worktrace
 
 ## The Problem
 
 Students and beginner developers frequently lose momentum between coding
-sessions. Small but important pieces of work — a half-finished task, a
-useful code snippet, a solution to a tricky bug — get buried in chat
+sessions. Small but important pieces of work - a half-finished task, a
+useful code snippet, a solution to a tricky bug - get buried in chat
 histories, scattered notes, or forgotten browser tabs. Resuming work then
 requires reconstructing context from memory, which is slow and
 error-prone.
@@ -13,14 +13,14 @@ error-prone.
 
 - **Primary:** Students learning to code (university, bootcamp,
   self-taught).
-- **Secondary:** Beginner developers in their first 1–2 years who juggle
+- **Secondary:** Beginner developers in their first 1-2 years who juggle
   multiple small projects and learning goals.
 
 ## Core Product Promise
 
 **Keep your work traceable.** Every small unit of development effort and
 every reusable piece of knowledge should be easy to find, easy to resume,
-and easy to build on — without relying on cloud services or complex
+and easy to build on - without relying on cloud services or complex
 tooling.
 
 ## Product Principles

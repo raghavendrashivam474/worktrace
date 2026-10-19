@@ -1,8 +1,8 @@
-﻿# Worktrace
+# Worktrace
 
 **Personal developer workspace for students and beginner developers.**
 
-> **Status:** Phase 0 (Application Foundation) — **Complete**.
+> **Status:** Phase 0 (Application Foundation) - **Complete**.
 > A fully configured, branded, themed Android application shell exists with local state management and a design system baseline.
 
 ## What is Worktrace?
@@ -67,13 +67,13 @@ flutter test
 
 ```text
 lib/
-├── main.dart              # Entry point (ProviderScope + runApp)
-├── app/
-│   ├── app.dart           # MaterialApp configuration
-│   ├── theme/             # Theme configuration & design tokens
-│   └── navigation/        # App shell and navigation UI
-├── features/              # Feature modules (Phase 1: tasks/, snippets/)
-└── shared/                # Shared widgets (WtCard, WtPrimaryButton, etc.)
+|-- main.dart              # Entry point (ProviderScope + runApp)
+|-- app/
+|   |-- app.dart           # MaterialApp configuration
+|   |-- theme/             # Theme configuration & design tokens
+|   |-- navigation/        # App shell and navigation UI
+|-- features/              # Feature modules (Phase 1: tasks/, snippets/)
+|-- shared/                # Shared widgets (WtCard, WtPrimaryButton, etc.)
 ```
 
 ## Documentation Index
