@@ -113,6 +113,64 @@ void main() {
     });
   });
 
+  group('editTask', () {
+    test('updates title and reloads the list', () async {
+      await container.read(taskListProvider.future);
+      await container.read(taskListProvider.notifier).createTask('Original');
+
+      final tasks = await container.read(taskListProvider.future);
+      final taskId = tasks.first.id;
+
+      await container
+          .read(taskListProvider.notifier)
+          .editTask(taskId, 'Updated');
+
+      final updated = await container.read(taskListProvider.future);
+      expect(updated.first.title, 'Updated');
+      expect(updated.first.id, taskId);
+    });
+
+    test('preserves createdAt through edit', () async {
+      await container.read(taskListProvider.future);
+      await container.read(taskListProvider.notifier).createTask('Dated');
+
+      final tasks = await container.read(taskListProvider.future);
+      final originalCreatedAt = tasks.first.createdAt;
+      final taskId = tasks.first.id;
+
+      await container
+          .read(taskListProvider.notifier)
+          .editTask(taskId, 'Renamed');
+
+      final updated = await container.read(taskListProvider.future);
+      expect(updated.first.createdAt, originalCreatedAt);
+    });
+
+    test('rejects empty new title', () async {
+      await container.read(taskListProvider.future);
+      await container.read(taskListProvider.notifier).createTask('Valid');
+
+      final tasks = await container.read(taskListProvider.future);
+      final taskId = tasks.first.id;
+
+      expect(
+        () => container.read(taskListProvider.notifier).editTask(taskId, '   '),
+        throwsArgumentError,
+      );
+    });
+
+    test('throws StateError for missing task id', () async {
+      await container.read(taskListProvider.future);
+
+      expect(
+        () => container
+            .read(taskListProvider.notifier)
+            .editTask('nonexistent', 'Title'),
+        throwsStateError,
+      );
+    });
+  });
+
   group('toggleTask', () {
     test('marks a task complete', () async {
       await container.read(taskListProvider.future);

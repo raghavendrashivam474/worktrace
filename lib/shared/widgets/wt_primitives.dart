@@ -47,6 +47,9 @@ class WtCard extends StatelessWidget {
 }
 
 /// An empty-state presentation for screens with no content yet.
+///
+/// Wrapped in a [SingleChildScrollView] to prevent layout overflow
+/// on small viewports, landscape mode, or picture-in-picture tablet windows.
 class WtEmptyState extends StatelessWidget {
   const WtEmptyState({
     super.key,
@@ -64,17 +67,17 @@ class WtEmptyState extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(AppSpacing.xxl),
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.all(AppSpacing.lg),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
               icon,
-              size: 56,
+              size: 48,
               color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.5),
             ),
-            const SizedBox(height: AppSpacing.lg),
+            const SizedBox(height: AppSpacing.md),
             Text(
               title,
               style: theme.textTheme.titleMedium,

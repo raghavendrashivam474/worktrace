@@ -32,6 +32,22 @@ class TaskListNotifier extends AsyncNotifier<List<Task>> {
     await _reload();
   }
 
+  /// Updates the title of the task with the given [id].
+  ///
+  /// Throws [ArgumentError] if [newTitle] is invalid (empty/whitespace).
+  /// Throws [StateError] if no task with [id] exists in the current list.
+  /// Reloads the task list after successful persistence.
+  Future<void> editTask(String id, String newTitle) async {
+    final tasks = state.valueOrNull ?? [];
+    final task = tasks.firstWhere(
+      (t) => t.id == id,
+      orElse: () => throw StateError('Task not found: $id'),
+    );
+    final updated = task.updateTitle(newTitle);
+    await _repo.updateTask(updated);
+    await _reload();
+  }
+
   /// Toggles the completion state of the task with the given [id].
   Future<void> toggleTask(String id) async {
     final tasks = state.valueOrNull ?? [];

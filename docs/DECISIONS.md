@@ -1,11 +1,11 @@
-# Decisions — Worktrace
+﻿# Decisions â€” Worktrace
 
 > Record of architectural, product, and process decisions.
 > Status values: **Accepted** | **Proposed** | **Deferred**
 
 ---
 
-## DEC-001 — Product Name and Category
+## DEC-001 â€” Product Name and Category
 
 | Field | Detail |
 |-------|--------|
@@ -17,7 +17,7 @@
 
 ---
 
-## DEC-002 — Target Platform
+## DEC-002 â€” Target Platform
 
 | Field | Detail |
 |-------|--------|
@@ -29,7 +29,7 @@
 
 ---
 
-## DEC-003 — Application Framework
+## DEC-003 â€” Application Framework
 
 | Field | Detail |
 |-------|--------|
@@ -41,7 +41,7 @@
 
 ---
 
-## DEC-004 — Local Persistence
+## DEC-004 â€” Local Persistence
 
 | Field | Detail |
 |-------|--------|
@@ -53,7 +53,7 @@
 
 ---
 
-## DEC-005 — State Management
+## DEC-005 â€” State Management
 
 | Field | Detail |
 |-------|--------|
@@ -65,7 +65,7 @@
 
 ---
 
-## DEC-006 — Data Strategy
+## DEC-006 â€” Data Strategy
 
 | Field | Detail |
 |-------|--------|
@@ -77,7 +77,7 @@
 
 ---
 
-## DEC-007 — V1 Feature Scope
+## DEC-007 â€” V1 Feature Scope
 
 | Field | Detail |
 |-------|--------|
@@ -89,7 +89,7 @@
 
 ---
 
-## DEC-008 — Theming
+## DEC-008 â€” Theming
 
 | Field | Detail |
 |-------|--------|
@@ -101,7 +101,7 @@
 
 ---
 
-## DEC-009 — Brand Concept
+## DEC-009 â€” Brand Concept
 
 | Field | Detail |
 |-------|--------|
@@ -113,7 +113,7 @@
 
 ---
 
-## DEC-010 — Repository Structure
+## DEC-010 â€” Repository Structure
 
 | Field | Detail |
 |-------|--------|
@@ -125,19 +125,19 @@
 
 ---
 
-## DEC-011 — Application Structure
+## DEC-011 â€” Application Structure
 
 | Field | Detail |
 |-------|--------|
 | **Status** | Accepted |
 | **Decision** | Feature-first directory structure inside lib/ with app/, features/, and shared/ top-level groups. |
 | **Reasoning** | Lightweight enough for a small app, scales naturally as features are added. Avoids premature layering or empty abstractions. |
-| **Consequences** | lib/main.dart as entry point. lib/app/ for MaterialApp config, theme, and navigation. lib/features/ for task and snippet modules (created when needed). lib/shared/ for genuinely shared widgets only — no speculative modules. |
+| **Consequences** | lib/main.dart as entry point. lib/app/ for MaterialApp config, theme, and navigation. lib/features/ for task and snippet modules (created when needed). lib/shared/ for genuinely shared widgets only â€” no speculative modules. |
 | **Date** | S0.1 |
 
 ---
 
-## DEC-012 — Sync-Readiness
+## DEC-012 â€” Sync-Readiness
 
 | Field | Detail |
 |-------|--------|
@@ -149,14 +149,14 @@
 
 ---
 
-## DEC-013 — Quality Baseline
+## DEC-013 â€” Quality Baseline
 
 | Field | Detail |
 |-------|--------|
 | **Status** | Accepted |
 | **Decision** | Minimum per-sprint checks: dart format, flutter analyze, flutter test (where applicable), and a successful Android debug build. |
 | **Reasoning** | Ensures each sprint leaves the codebase in a verifiable, working state without imposing heavyweight CI before it is needed. |
-| **Consequences** | Formatting and analysis are mandatory every sprint. Tests required where applicable. Android build verified every sprint from S0.2 onward. Code generation (build_runner) run only when the project uses generated code. Generated Dart source required by the build (e.g., Drift .g.dart files) is committed to the repository for reproducible builds — see .gitignore policy. CI/CD pipeline deferred. |
+| **Consequences** | Formatting and analysis are mandatory every sprint. Tests required where applicable. Android build verified every sprint from S0.2 onward. Code generation (build_runner) run only when the project uses generated code. Generated Dart source required by the build (e.g., Drift .g.dart files) is committed to the repository for reproducible builds â€” see .gitignore policy. CI/CD pipeline deferred. |
 | **Date** | S0.1 |
 
 ---
@@ -165,19 +165,19 @@
 
 ---
 
-## DEC-014 — Task Identifier Strategy
+## DEC-014 â€” Task Identifier Strategy
 
 | Field | Detail |
 |-------|--------|
 | **Status** | Accepted |
 | **Decision** | Task identifiers use UUID v4, generated client-side via the `uuid` package. |
-| **Reasoning** | UUID v4 provides collision-resistant identifiers without requiring a central authority or sequential counter. This preserves the local-first model (DEC-006) and keeps the future sync path open (DEC-012) — UUIDs merge cleanly across devices. |
+| **Reasoning** | UUID v4 provides collision-resistant identifiers without requiring a central authority or sequential counter. This preserves the local-first model (DEC-006) and keeps the future sync path open (DEC-012) â€” UUIDs merge cleanly across devices. |
 | **Consequences** | The `uuid` package is added as a dependency. Task IDs are opaque strings, not auto-increment integers. The domain model generates IDs at creation time, not at persistence time. |
 | **Date** | S1.1 |
 
 ---
 
-## DEC-015 — Database Architecture
+## DEC-015 â€” Database Architecture
 
 | Field | Detail |
 |-------|--------|
@@ -189,7 +189,7 @@
 
 ---
 
-## DEC-016 — Domain Model Validation
+## DEC-016 â€” Domain Model Validation
 
 | Field | Detail |
 |-------|--------|
@@ -200,7 +200,7 @@
 | **Date** | S1.1 |
 ---
 
-## DEC-017 — Database Initialization
+## DEC-017 â€” Database Initialization
 
 | Field | Detail |
 |-------|--------|
@@ -212,7 +212,7 @@
 
 ---
 
-## DEC-018 — Task UI Interaction Patterns
+## DEC-018 â€” Task UI Interaction Patterns
 
 | Field | Detail |
 |-------|--------|
@@ -221,3 +221,14 @@
 | **Reasoning** | Dialog-based creation is the simplest Material 3 pattern for a single-field form. Confirmation before deletion prevents accidental data loss. Inline checkbox is the standard Material pattern for binary toggle. Persist-before-render ensures the UI never shows state that doesn't match the database. |
 | **Consequences** | No separate task editor screen in this phase. Task editing (title change after creation) deferred to a future sprint. The `TextEditingController` is disposed after a 300ms delay to accommodate the dialog exit animation. |
 | **Date** | S1.3 |
+## DEC-019: Presentation-Local Task Organization & Self-Contained Dialog Lifecycle
+- **Status:** Approved
+- **Context:** S1.4 required title editing, search, completion filtering, and sorting. S1.5 required resolving dialog lifecycle fragility (delayed controller disposal).
+- **Decision:** Search query, filter selection, and sort options are evaluated in-memory inside TasksScreen (ConsumerStatefulWidget). Dialogs use a dedicated _TaskFormDialog stateful widget that manages controller creation in initState and cleanup in dispose.
+- **Consequences:** Keeps presentation state localized without introducing unnecessary global providers or Drift schema bloat. Eliminates Future.delayed(300ms) controller disposal workarounds.
+
+## DEC-020: SQLite Timestamp Precision and Local Time Semantics
+- **Status:** Approved
+- **Context:** Drift/SQLite date-time storage operates with second-level precision.
+- **Decision:** Retain Drift default second-level DateTime mapping for createdAt and updatedAt.
+- **Consequences:** Sufficient for task ordering and auditing without database schema migrations. Test fixtures use microsecond-truncated fixed dates to ensure deterministic assertions.
