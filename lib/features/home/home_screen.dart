@@ -5,6 +5,7 @@ import 'package:worktrace/app/theme/app_tokens.dart';
 import 'package:worktrace/features/snippets/domain/snippet.dart';
 import 'package:worktrace/features/snippets/presentation/snippet_list_provider.dart';
 import 'package:worktrace/features/tasks/domain/task.dart';
+import 'package:worktrace/features/portability/presentation/portability_section.dart';
 import 'package:worktrace/features/tasks/presentation/task_list_provider.dart';
 
 /// Unified workspace home screen.
