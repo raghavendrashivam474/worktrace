@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:worktrace/app/app.dart';
@@ -76,7 +76,7 @@ void main() {
       await pumpApp(tester);
 
       // Home content is visible
-      expect(find.text('Keep your work traceable'), findsOneWidget);
+      expect(find.text('Workspace'), findsOneWidget);
 
       // Tasks and Snippets empty states are NOT visible
       expect(find.text('No tasks yet'), findsNothing);
@@ -91,11 +91,11 @@ void main() {
       await tapDestination(tester, 'Tasks');
 
       expect(find.text('No tasks yet'), findsOneWidget);
-      expect(find.text('Keep your work traceable'), findsNothing);
+      expect(find.text('Workspace'), findsNothing);
 
       await tapDestination(tester, 'Home');
 
-      expect(find.text('Keep your work traceable'), findsOneWidget);
+      expect(find.text('Workspace'), findsOneWidget);
     });
 
     testWidgets('Navigate to Snippets', (tester) async {
@@ -104,7 +104,7 @@ void main() {
       await tapDestination(tester, 'Snippets');
 
       expect(find.text('No snippets yet'), findsOneWidget);
-      expect(find.text('Keep your work traceable'), findsNothing);
+      expect(find.text('Workspace'), findsNothing);
     });
 
     testWidgets('Repeated taps do not duplicate content', (tester) async {
@@ -128,7 +128,7 @@ void main() {
       await tester.binding.handlePopRoute();
       await tester.pumpAndSettle();
 
-      expect(find.text('Keep your work traceable'), findsOneWidget);
+      expect(find.text('Workspace'), findsOneWidget);
     });
 
     testWidgets('Back from Snippets returns to Home', (tester) async {
@@ -139,7 +139,7 @@ void main() {
       await tester.binding.handlePopRoute();
       await tester.pumpAndSettle();
 
-      expect(find.text('Keep your work traceable'), findsOneWidget);
+      expect(find.text('Workspace'), findsOneWidget);
     });
   });
 
