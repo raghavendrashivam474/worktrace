@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:worktrace/app/navigation/app_destinations.dart';
+import 'package:worktrace/app/navigation/navigation_provider.dart';
 import 'package:worktrace/app/theme/app_tokens.dart';
 import 'package:worktrace/features/home/home_screen.dart';
 import 'package:worktrace/features/snippets/snippets_screen.dart';
@@ -8,19 +10,17 @@ import 'package:worktrace/features/tasks/tasks_screen.dart';
 /// Responsive application shell with tab navigation.
 ///
 /// Uses [NavigationBar] on compact screens (< 600 dp) and
-/// [NavigationRail] on wider screens. Navigation state is local
-/// to this widget — no external state management is needed for
-/// simple tab selection.
-class AppShell extends StatefulWidget {
+/// [NavigationRail] on wider screens. Navigation index is
+/// stored in [navigationIndexProvider] so that child screens
+/// (e.g. HomeScreen quick actions) can request tab changes.
+class AppShell extends ConsumerStatefulWidget {
   const AppShell({super.key});
 
   @override
-  State<AppShell> createState() => _AppShellState();
+  ConsumerState<AppShell> createState() => _AppShellState();
 }
 
-class _AppShellState extends State<AppShell> {
-  int _selectedIndex = 0;
-
+class _AppShellState extends ConsumerState<AppShell> {
   static const List<Widget> _screens = [
     HomeScreen(),
     TasksScreen(),
@@ -31,17 +31,18 @@ class _AppShellState extends State<AppShell> {
   static const double _railBreakpoint = 600;
 
   void _onDestinationSelected(int index) {
-    setState(() => _selectedIndex = index);
+    ref.read(navigationIndexProvider.notifier).state = index;
   }
 
   @override
   Widget build(BuildContext context) {
+    final selectedIndex = ref.watch(navigationIndexProvider);
     final theme = Theme.of(context);
 
     return PopScope(
-      canPop: _selectedIndex == 0,
+      canPop: selectedIndex == 0,
       onPopInvokedWithResult: (didPop, result) {
-        if (!didPop && _selectedIndex != 0) {
+        if (!didPop && selectedIndex != 0) {
           _onDestinationSelected(0);
         }
       },
@@ -65,9 +66,9 @@ class _AppShellState extends State<AppShell> {
         body: LayoutBuilder(
           builder: (context, constraints) {
             if (constraints.maxWidth >= _railBreakpoint) {
-              return _buildWideLayout();
+              return _buildWideLayout(selectedIndex);
             }
-            return _buildCompactLayout();
+            return _buildCompactLayout(selectedIndex);
           },
         ),
       ),
@@ -75,14 +76,14 @@ class _AppShellState extends State<AppShell> {
   }
 
   /// Compact layout: content area + bottom NavigationBar.
-  Widget _buildCompactLayout() {
+  Widget _buildCompactLayout(int selectedIndex) {
     return Column(
       children: [
         Expanded(
-          child: IndexedStack(index: _selectedIndex, children: _screens),
+          child: IndexedStack(index: selectedIndex, children: _screens),
         ),
         NavigationBar(
-          selectedIndex: _selectedIndex,
+          selectedIndex: selectedIndex,
           onDestinationSelected: _onDestinationSelected,
           destinations: appDestinations
               .map(
@@ -99,11 +100,11 @@ class _AppShellState extends State<AppShell> {
   }
 
   /// Wide layout: side NavigationRail + content area.
-  Widget _buildWideLayout() {
+  Widget _buildWideLayout(int selectedIndex) {
     return Row(
       children: [
         NavigationRail(
-          selectedIndex: _selectedIndex,
+          selectedIndex: selectedIndex,
           onDestinationSelected: _onDestinationSelected,
           labelType: NavigationRailLabelType.all,
           destinations: appDestinations
@@ -118,7 +119,7 @@ class _AppShellState extends State<AppShell> {
         ),
         const VerticalDivider(thickness: 1, width: 1),
         Expanded(
-          child: IndexedStack(index: _selectedIndex, children: _screens),
+          child: IndexedStack(index: selectedIndex, children: _screens),
         ),
       ],
     );
