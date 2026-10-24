@@ -102,8 +102,7 @@ class PortabilitySection extends ConsumerWidget {
     final path = files.single.path;
     if (path == null) return;
 
-    // 2. Read and validate.
-    final service = ref.read(portabilityServiceProvider);
+    // 2. Read file.
     final String json;
     try {
       json = await File(path).readAsString();
@@ -116,9 +115,11 @@ class PortabilitySection extends ConsumerWidget {
       return;
     }
 
+    // 3. Validate format (catch malformed or unsupported files).
+    final service = ref.read(portabilityServiceProvider);
     final export = service.validateExport(json);
 
-    // 3. Confirm with user.
+    // 4. Confirm with user.
     if (!context.mounted) return;
     final confirmed = await showDialog<bool>(
       context: context,
@@ -146,7 +147,7 @@ class PortabilitySection extends ConsumerWidget {
 
     if (confirmed != true) return;
 
-    // 4. Import.
+    // 5. Import atomically.
     try {
       final importResult = await service.importWorkspace(export);
 
@@ -159,7 +160,9 @@ class PortabilitySection extends ConsumerWidget {
       }
     } catch (e) {
       if (context.mounted) {
-        messenger.showSnackBar(SnackBar(content: Text('Import failed: $e')));
+        messenger.showSnackBar(
+          const SnackBar(content: Text('Import failed. No data was changed.')),
+        );
       }
     }
   }
