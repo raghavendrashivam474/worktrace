@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'domain/task.dart';
 import 'presentation/task_list_provider.dart';
+import 'package:worktrace/features/links/presentation/linked_snippets_sheet.dart';
 import 'package:worktrace/shared/widgets/wt_primitives.dart';
 
 /// Completion filter for the task list.
@@ -375,6 +376,11 @@ class _TaskListItem extends ConsumerWidget {
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
+          IconButton(
+            icon: const Icon(Icons.link_rounded),
+            tooltip: 'Linked snippets',
+            onPressed: () => showLinkedSnippetsSheet(context, task.id),
+          ),
           IconButton(
             icon: const Icon(Icons.edit_outlined),
             tooltip: 'Edit task',
