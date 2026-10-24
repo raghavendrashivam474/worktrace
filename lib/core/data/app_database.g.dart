@@ -774,16 +774,314 @@ class SnippetsCompanion extends UpdateCompanion<SnippetRow> {
   }
 }
 
+class $TaskSnippetLinksTable extends TaskSnippetLinks
+    with TableInfo<$TaskSnippetLinksTable, TaskSnippetLinkRow> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TaskSnippetLinksTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _taskIdMeta = const VerificationMeta('taskId');
+  @override
+  late final GeneratedColumn<String> taskId = GeneratedColumn<String>(
+    'task_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES tasks (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _snippetIdMeta = const VerificationMeta(
+    'snippetId',
+  );
+  @override
+  late final GeneratedColumn<String> snippetId = GeneratedColumn<String>(
+    'snippet_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES snippets (id) ON DELETE CASCADE',
+    ),
+  );
+  static const VerificationMeta _linkedAtMeta = const VerificationMeta(
+    'linkedAt',
+  );
+  @override
+  late final GeneratedColumn<DateTime> linkedAt = GeneratedColumn<DateTime>(
+    'linked_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [taskId, snippetId, linkedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'task_snippet_links';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TaskSnippetLinkRow> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('task_id')) {
+      context.handle(
+        _taskIdMeta,
+        taskId.isAcceptableOrUnknown(data['task_id']!, _taskIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_taskIdMeta);
+    }
+    if (data.containsKey('snippet_id')) {
+      context.handle(
+        _snippetIdMeta,
+        snippetId.isAcceptableOrUnknown(data['snippet_id']!, _snippetIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_snippetIdMeta);
+    }
+    if (data.containsKey('linked_at')) {
+      context.handle(
+        _linkedAtMeta,
+        linkedAt.isAcceptableOrUnknown(data['linked_at']!, _linkedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_linkedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {taskId, snippetId};
+  @override
+  TaskSnippetLinkRow map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TaskSnippetLinkRow(
+      taskId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}task_id'],
+      )!,
+      snippetId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}snippet_id'],
+      )!,
+      linkedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}linked_at'],
+      )!,
+    );
+  }
+
+  @override
+  $TaskSnippetLinksTable createAlias(String alias) {
+    return $TaskSnippetLinksTable(attachedDatabase, alias);
+  }
+}
+
+class TaskSnippetLinkRow extends DataClass
+    implements Insertable<TaskSnippetLinkRow> {
+  final String taskId;
+  final String snippetId;
+  final DateTime linkedAt;
+  const TaskSnippetLinkRow({
+    required this.taskId,
+    required this.snippetId,
+    required this.linkedAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['task_id'] = Variable<String>(taskId);
+    map['snippet_id'] = Variable<String>(snippetId);
+    map['linked_at'] = Variable<DateTime>(linkedAt);
+    return map;
+  }
+
+  TaskSnippetLinksCompanion toCompanion(bool nullToAbsent) {
+    return TaskSnippetLinksCompanion(
+      taskId: Value(taskId),
+      snippetId: Value(snippetId),
+      linkedAt: Value(linkedAt),
+    );
+  }
+
+  factory TaskSnippetLinkRow.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TaskSnippetLinkRow(
+      taskId: serializer.fromJson<String>(json['taskId']),
+      snippetId: serializer.fromJson<String>(json['snippetId']),
+      linkedAt: serializer.fromJson<DateTime>(json['linkedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'taskId': serializer.toJson<String>(taskId),
+      'snippetId': serializer.toJson<String>(snippetId),
+      'linkedAt': serializer.toJson<DateTime>(linkedAt),
+    };
+  }
+
+  TaskSnippetLinkRow copyWith({
+    String? taskId,
+    String? snippetId,
+    DateTime? linkedAt,
+  }) => TaskSnippetLinkRow(
+    taskId: taskId ?? this.taskId,
+    snippetId: snippetId ?? this.snippetId,
+    linkedAt: linkedAt ?? this.linkedAt,
+  );
+  TaskSnippetLinkRow copyWithCompanion(TaskSnippetLinksCompanion data) {
+    return TaskSnippetLinkRow(
+      taskId: data.taskId.present ? data.taskId.value : this.taskId,
+      snippetId: data.snippetId.present ? data.snippetId.value : this.snippetId,
+      linkedAt: data.linkedAt.present ? data.linkedAt.value : this.linkedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskSnippetLinkRow(')
+          ..write('taskId: $taskId, ')
+          ..write('snippetId: $snippetId, ')
+          ..write('linkedAt: $linkedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(taskId, snippetId, linkedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TaskSnippetLinkRow &&
+          other.taskId == this.taskId &&
+          other.snippetId == this.snippetId &&
+          other.linkedAt == this.linkedAt);
+}
+
+class TaskSnippetLinksCompanion extends UpdateCompanion<TaskSnippetLinkRow> {
+  final Value<String> taskId;
+  final Value<String> snippetId;
+  final Value<DateTime> linkedAt;
+  final Value<int> rowid;
+  const TaskSnippetLinksCompanion({
+    this.taskId = const Value.absent(),
+    this.snippetId = const Value.absent(),
+    this.linkedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  TaskSnippetLinksCompanion.insert({
+    required String taskId,
+    required String snippetId,
+    required DateTime linkedAt,
+    this.rowid = const Value.absent(),
+  }) : taskId = Value(taskId),
+       snippetId = Value(snippetId),
+       linkedAt = Value(linkedAt);
+  static Insertable<TaskSnippetLinkRow> custom({
+    Expression<String>? taskId,
+    Expression<String>? snippetId,
+    Expression<DateTime>? linkedAt,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (taskId != null) 'task_id': taskId,
+      if (snippetId != null) 'snippet_id': snippetId,
+      if (linkedAt != null) 'linked_at': linkedAt,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  TaskSnippetLinksCompanion copyWith({
+    Value<String>? taskId,
+    Value<String>? snippetId,
+    Value<DateTime>? linkedAt,
+    Value<int>? rowid,
+  }) {
+    return TaskSnippetLinksCompanion(
+      taskId: taskId ?? this.taskId,
+      snippetId: snippetId ?? this.snippetId,
+      linkedAt: linkedAt ?? this.linkedAt,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (taskId.present) {
+      map['task_id'] = Variable<String>(taskId.value);
+    }
+    if (snippetId.present) {
+      map['snippet_id'] = Variable<String>(snippetId.value);
+    }
+    if (linkedAt.present) {
+      map['linked_at'] = Variable<DateTime>(linkedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TaskSnippetLinksCompanion(')
+          ..write('taskId: $taskId, ')
+          ..write('snippetId: $snippetId, ')
+          ..write('linkedAt: $linkedAt, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $TasksTable tasks = $TasksTable(this);
   late final $SnippetsTable snippets = $SnippetsTable(this);
+  late final $TaskSnippetLinksTable taskSnippetLinks = $TaskSnippetLinksTable(
+    this,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [tasks, snippets];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+    tasks,
+    snippets,
+    taskSnippetLinks,
+  ];
+  @override
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules([
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'tasks',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('task_snippet_links', kind: UpdateKind.delete)],
+    ),
+    WritePropagation(
+      on: TableUpdateQuery.onTableName(
+        'snippets',
+        limitUpdateKind: UpdateKind.delete,
+      ),
+      result: [TableUpdate('task_snippet_links', kind: UpdateKind.delete)],
+    ),
+  ]);
 }
 
 typedef $$TasksTableCreateCompanionBuilder =
@@ -804,6 +1102,31 @@ typedef $$TasksTableUpdateCompanionBuilder =
       Value<DateTime> updatedAt,
       Value<int> rowid,
     });
+
+final class $$TasksTableReferences
+    extends BaseReferences<_$AppDatabase, $TasksTable, TaskRow> {
+  $$TasksTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$TaskSnippetLinksTable, List<TaskSnippetLinkRow>>
+  _taskSnippetLinksRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.taskSnippetLinks,
+    aliasName: 'tasks__id__task_snippet_links__task_id',
+  );
+
+  $$TaskSnippetLinksTableProcessedTableManager get taskSnippetLinksRefs {
+    final manager = $$TaskSnippetLinksTableTableManager(
+      $_db,
+      $_db.taskSnippetLinks,
+    ).filter((f) => f.taskId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _taskSnippetLinksRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
 
 class $$TasksTableFilterComposer extends Composer<_$AppDatabase, $TasksTable> {
   $$TasksTableFilterComposer({
@@ -837,6 +1160,31 @@ class $$TasksTableFilterComposer extends Composer<_$AppDatabase, $TasksTable> {
     column: $table.updatedAt,
     builder: (column) => ColumnFilters(column),
   );
+
+  Expression<bool> taskSnippetLinksRefs(
+    Expression<bool> Function($$TaskSnippetLinksTableFilterComposer f) f,
+  ) {
+    final $$TaskSnippetLinksTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskSnippetLinks,
+      getReferencedColumn: (t) => t.taskId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSnippetLinksTableFilterComposer(
+            $db: $db,
+            $table: $db.taskSnippetLinks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$TasksTableOrderingComposer
@@ -899,6 +1247,31 @@ class $$TasksTableAnnotationComposer
 
   GeneratedColumn<DateTime> get updatedAt =>
       $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  Expression<T> taskSnippetLinksRefs<T extends Object>(
+    Expression<T> Function($$TaskSnippetLinksTableAnnotationComposer a) f,
+  ) {
+    final $$TaskSnippetLinksTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskSnippetLinks,
+      getReferencedColumn: (t) => t.taskId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSnippetLinksTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taskSnippetLinks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$TasksTableTableManager
@@ -912,9 +1285,9 @@ class $$TasksTableTableManager
           $$TasksTableAnnotationComposer,
           $$TasksTableCreateCompanionBuilder,
           $$TasksTableUpdateCompanionBuilder,
-          (TaskRow, BaseReferences<_$AppDatabase, $TasksTable, TaskRow>),
+          (TaskRow, $$TasksTableReferences),
           TaskRow,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool taskSnippetLinksRefs})
         > {
   $$TasksTableTableManager(_$AppDatabase db, $TasksTable table)
     : super(
@@ -963,15 +1336,41 @@ class $$TasksTableTableManager
               .map(
                 (e) => (
                   e.readTable<$TasksTable, TaskRow>(table),
-                  BaseReferences<_$AppDatabase, $TasksTable, TaskRow>(
-                    db,
-                    table,
-                    e,
-                  ),
+                  $$TasksTableReferences(db, table, e),
                 ),
               )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({taskSnippetLinksRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (taskSnippetLinksRefs) db.taskSnippetLinks,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (taskSnippetLinksRefs)
+                    await $_getPrefetchedData<
+                      TaskRow,
+                      $TasksTable,
+                      TaskSnippetLinkRow
+                    >(
+                      currentTable: table,
+                      referencedTable: $$TasksTableReferences
+                          ._taskSnippetLinksRefsTable(db),
+                      managerFromTypedResult: (p0) => $$TasksTableReferences(
+                        db,
+                        table,
+                        p0,
+                      ).taskSnippetLinksRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.taskId == item.id),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
         ),
       );
 }
@@ -986,9 +1385,9 @@ typedef $$TasksTableProcessedTableManager =
       $$TasksTableAnnotationComposer,
       $$TasksTableCreateCompanionBuilder,
       $$TasksTableUpdateCompanionBuilder,
-      (TaskRow, BaseReferences<_$AppDatabase, $TasksTable, TaskRow>),
+      (TaskRow, $$TasksTableReferences),
       TaskRow,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool taskSnippetLinksRefs})
     >;
 typedef $$SnippetsTableCreateCompanionBuilder =
     SnippetsCompanion Function({
@@ -1010,6 +1409,31 @@ typedef $$SnippetsTableUpdateCompanionBuilder =
       Value<DateTime> updatedAt,
       Value<int> rowid,
     });
+
+final class $$SnippetsTableReferences
+    extends BaseReferences<_$AppDatabase, $SnippetsTable, SnippetRow> {
+  $$SnippetsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$TaskSnippetLinksTable, List<TaskSnippetLinkRow>>
+  _taskSnippetLinksRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.taskSnippetLinks,
+    aliasName: 'snippets__id__task_snippet_links__snippet_id',
+  );
+
+  $$TaskSnippetLinksTableProcessedTableManager get taskSnippetLinksRefs {
+    final manager = $$TaskSnippetLinksTableTableManager(
+      $_db,
+      $_db.taskSnippetLinks,
+    ).filter((f) => f.snippetId.id.sqlEquals($_itemColumn<String>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _taskSnippetLinksRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
 
 class $$SnippetsTableFilterComposer
     extends Composer<_$AppDatabase, $SnippetsTable> {
@@ -1049,6 +1473,31 @@ class $$SnippetsTableFilterComposer
     column: $table.updatedAt,
     builder: (column) => ColumnFilters(column),
   );
+
+  Expression<bool> taskSnippetLinksRefs(
+    Expression<bool> Function($$TaskSnippetLinksTableFilterComposer f) f,
+  ) {
+    final $$TaskSnippetLinksTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskSnippetLinks,
+      getReferencedColumn: (t) => t.snippetId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSnippetLinksTableFilterComposer(
+            $db: $db,
+            $table: $db.taskSnippetLinks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$SnippetsTableOrderingComposer
@@ -1117,6 +1566,31 @@ class $$SnippetsTableAnnotationComposer
 
   GeneratedColumn<DateTime> get updatedAt =>
       $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  Expression<T> taskSnippetLinksRefs<T extends Object>(
+    Expression<T> Function($$TaskSnippetLinksTableAnnotationComposer a) f,
+  ) {
+    final $$TaskSnippetLinksTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.taskSnippetLinks,
+      getReferencedColumn: (t) => t.snippetId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TaskSnippetLinksTableAnnotationComposer(
+            $db: $db,
+            $table: $db.taskSnippetLinks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$SnippetsTableTableManager
@@ -1130,12 +1604,9 @@ class $$SnippetsTableTableManager
           $$SnippetsTableAnnotationComposer,
           $$SnippetsTableCreateCompanionBuilder,
           $$SnippetsTableUpdateCompanionBuilder,
-          (
-            SnippetRow,
-            BaseReferences<_$AppDatabase, $SnippetsTable, SnippetRow>,
-          ),
+          (SnippetRow, $$SnippetsTableReferences),
           SnippetRow,
-          PrefetchHooks Function()
+          PrefetchHooks Function({bool taskSnippetLinksRefs})
         > {
   $$SnippetsTableTableManager(_$AppDatabase db, $SnippetsTable table)
     : super(
@@ -1188,15 +1659,41 @@ class $$SnippetsTableTableManager
               .map(
                 (e) => (
                   e.readTable<$SnippetsTable, SnippetRow>(table),
-                  BaseReferences<_$AppDatabase, $SnippetsTable, SnippetRow>(
-                    db,
-                    table,
-                    e,
-                  ),
+                  $$SnippetsTableReferences(db, table, e),
                 ),
               )
               .toList(),
-          prefetchHooksCallback: null,
+          prefetchHooksCallback: ({taskSnippetLinksRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (taskSnippetLinksRefs) db.taskSnippetLinks,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (taskSnippetLinksRefs)
+                    await $_getPrefetchedData<
+                      SnippetRow,
+                      $SnippetsTable,
+                      TaskSnippetLinkRow
+                    >(
+                      currentTable: table,
+                      referencedTable: $$SnippetsTableReferences
+                          ._taskSnippetLinksRefsTable(db),
+                      managerFromTypedResult: (p0) => $$SnippetsTableReferences(
+                        db,
+                        table,
+                        p0,
+                      ).taskSnippetLinksRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.snippetId == item.id),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
         ),
       );
 }
@@ -1211,9 +1708,391 @@ typedef $$SnippetsTableProcessedTableManager =
       $$SnippetsTableAnnotationComposer,
       $$SnippetsTableCreateCompanionBuilder,
       $$SnippetsTableUpdateCompanionBuilder,
-      (SnippetRow, BaseReferences<_$AppDatabase, $SnippetsTable, SnippetRow>),
+      (SnippetRow, $$SnippetsTableReferences),
       SnippetRow,
-      PrefetchHooks Function()
+      PrefetchHooks Function({bool taskSnippetLinksRefs})
+    >;
+typedef $$TaskSnippetLinksTableCreateCompanionBuilder =
+    TaskSnippetLinksCompanion Function({
+      required String taskId,
+      required String snippetId,
+      required DateTime linkedAt,
+      Value<int> rowid,
+    });
+typedef $$TaskSnippetLinksTableUpdateCompanionBuilder =
+    TaskSnippetLinksCompanion Function({
+      Value<String> taskId,
+      Value<String> snippetId,
+      Value<DateTime> linkedAt,
+      Value<int> rowid,
+    });
+
+final class $$TaskSnippetLinksTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $TaskSnippetLinksTable,
+          TaskSnippetLinkRow
+        > {
+  $$TaskSnippetLinksTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $TasksTable _taskIdTable(_$AppDatabase db) =>
+      db.tasks.createAlias('task_snippet_links__task_id__tasks__id');
+
+  $$TasksTableProcessedTableManager get taskId {
+    final $_column = $_itemColumn<String>('task_id')!;
+
+    final manager = $$TasksTableTableManager(
+      $_db,
+      $_db.tasks,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_taskIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $SnippetsTable _snippetIdTable(_$AppDatabase db) =>
+      db.snippets.createAlias('task_snippet_links__snippet_id__snippets__id');
+
+  $$SnippetsTableProcessedTableManager get snippetId {
+    final $_column = $_itemColumn<String>('snippet_id')!;
+
+    final manager = $$SnippetsTableTableManager(
+      $_db,
+      $_db.snippets,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_snippetIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$TaskSnippetLinksTableFilterComposer
+    extends Composer<_$AppDatabase, $TaskSnippetLinksTable> {
+  $$TaskSnippetLinksTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<DateTime> get linkedAt => $composableBuilder(
+    column: $table.linkedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$TasksTableFilterComposer get taskId {
+    final $$TasksTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.taskId,
+      referencedTable: $db.tasks,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TasksTableFilterComposer(
+            $db: $db,
+            $table: $db.tasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SnippetsTableFilterComposer get snippetId {
+    final $$SnippetsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.snippetId,
+      referencedTable: $db.snippets,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SnippetsTableFilterComposer(
+            $db: $db,
+            $table: $db.snippets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskSnippetLinksTableOrderingComposer
+    extends Composer<_$AppDatabase, $TaskSnippetLinksTable> {
+  $$TaskSnippetLinksTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<DateTime> get linkedAt => $composableBuilder(
+    column: $table.linkedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$TasksTableOrderingComposer get taskId {
+    final $$TasksTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.taskId,
+      referencedTable: $db.tasks,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TasksTableOrderingComposer(
+            $db: $db,
+            $table: $db.tasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SnippetsTableOrderingComposer get snippetId {
+    final $$SnippetsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.snippetId,
+      referencedTable: $db.snippets,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SnippetsTableOrderingComposer(
+            $db: $db,
+            $table: $db.snippets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskSnippetLinksTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TaskSnippetLinksTable> {
+  $$TaskSnippetLinksTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<DateTime> get linkedAt =>
+      $composableBuilder(column: $table.linkedAt, builder: (column) => column);
+
+  $$TasksTableAnnotationComposer get taskId {
+    final $$TasksTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.taskId,
+      referencedTable: $db.tasks,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$TasksTableAnnotationComposer(
+            $db: $db,
+            $table: $db.tasks,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$SnippetsTableAnnotationComposer get snippetId {
+    final $$SnippetsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.snippetId,
+      referencedTable: $db.snippets,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SnippetsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.snippets,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$TaskSnippetLinksTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $TaskSnippetLinksTable,
+          TaskSnippetLinkRow,
+          $$TaskSnippetLinksTableFilterComposer,
+          $$TaskSnippetLinksTableOrderingComposer,
+          $$TaskSnippetLinksTableAnnotationComposer,
+          $$TaskSnippetLinksTableCreateCompanionBuilder,
+          $$TaskSnippetLinksTableUpdateCompanionBuilder,
+          (TaskSnippetLinkRow, $$TaskSnippetLinksTableReferences),
+          TaskSnippetLinkRow,
+          PrefetchHooks Function({bool taskId, bool snippetId})
+        > {
+  $$TaskSnippetLinksTableTableManager(
+    _$AppDatabase db,
+    $TaskSnippetLinksTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TaskSnippetLinksTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TaskSnippetLinksTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TaskSnippetLinksTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> taskId = const Value.absent(),
+                Value<String> snippetId = const Value.absent(),
+                Value<DateTime> linkedAt = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => TaskSnippetLinksCompanion(
+                taskId: taskId,
+                snippetId: snippetId,
+                linkedAt: linkedAt,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String taskId,
+                required String snippetId,
+                required DateTime linkedAt,
+                Value<int> rowid = const Value.absent(),
+              }) => TaskSnippetLinksCompanion.insert(
+                taskId: taskId,
+                snippetId: snippetId,
+                linkedAt: linkedAt,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable<$TaskSnippetLinksTable, TaskSnippetLinkRow>(
+                    table,
+                  ),
+                  $$TaskSnippetLinksTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({taskId = false, snippetId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (taskId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.taskId,
+                                referencedTable:
+                                    $$TaskSnippetLinksTableReferences
+                                        ._taskIdTable(db),
+                                referencedColumn:
+                                    $$TaskSnippetLinksTableReferences
+                                        ._taskIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (snippetId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.snippetId,
+                                referencedTable:
+                                    $$TaskSnippetLinksTableReferences
+                                        ._snippetIdTable(db),
+                                referencedColumn:
+                                    $$TaskSnippetLinksTableReferences
+                                        ._snippetIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$TaskSnippetLinksTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $TaskSnippetLinksTable,
+      TaskSnippetLinkRow,
+      $$TaskSnippetLinksTableFilterComposer,
+      $$TaskSnippetLinksTableOrderingComposer,
+      $$TaskSnippetLinksTableAnnotationComposer,
+      $$TaskSnippetLinksTableCreateCompanionBuilder,
+      $$TaskSnippetLinksTableUpdateCompanionBuilder,
+      (TaskSnippetLinkRow, $$TaskSnippetLinksTableReferences),
+      TaskSnippetLinkRow,
+      PrefetchHooks Function({bool taskId, bool snippetId})
     >;
 
 class $AppDatabaseManager {
@@ -1223,4 +2102,6 @@ class $AppDatabaseManager {
       $$TasksTableTableManager(_db, _db.tasks);
   $$SnippetsTableTableManager get snippets =>
       $$SnippetsTableTableManager(_db, _db.snippets);
+  $$TaskSnippetLinksTableTableManager get taskSnippetLinks =>
+      $$TaskSnippetLinksTableTableManager(_db, _db.taskSnippetLinks);
 }
